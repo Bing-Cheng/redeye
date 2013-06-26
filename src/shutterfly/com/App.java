@@ -64,30 +64,30 @@ public class App {
 		@Override
 		public void mouseDragged(java.awt.event.MouseEvent e) {
 			// TODO Auto-generated method stub
-			System.out.println("Drag X = " + e.getX() +"   Y = " + e.getY());
+			System.out.println("git Drag X = " + e.getX() +"   Y = " + e.getY());
 			if (moveImage == true) {
-			int X = e.getX() - startX;
-			int Y = e.getY() - startY;
-			System.out.println("Drag enter Y= " + Y +"   startY = " + startY+"   getY = " + e.getY());
-			if (Math.abs(X)>10||Math.abs(Y)>10){
-				offsetX = offsetX + X;
-				offsetY = offsetY +Y;
-				System.out.println("Drag enter offsetX = " + offsetX +"   offsetY = " + offsetY);
-				originalImage = new RedeyeReduction(imgOriginal,offsetX,offsetY);
+				int X = e.getX() - startX;
+				int Y = e.getY() - startY;
+				System.out.println("Drag enter Y= " + Y +"   startY = " + startY+"   getY = " + e.getY());
+				if (Math.abs(X)>10||Math.abs(Y)>10){
+					offsetX = offsetX + X;
+					offsetY = offsetY +Y;
+					System.out.println("Drag enter offsetX = " + offsetX +"   offsetY = " + offsetY);
+					originalImage = new RedeyeReduction(imgOriginal,offsetX,offsetY);
 
-				System.out.println("Drag got image X = " + e.getX() +"   Y = " + e.getY());
-				originalArea.removeAll();
-				originalArea.add(originalImage);
-				System.out.println("Drag added to panel X = " + e.getX() +"   Y = " + e.getY());
-				RedeyeReduction imgOriginalClone= new RedeyeReduction(imgOriginal,offsetX,offsetY);
-				processedArea.removeAll();
-				processedArea.add(imgOriginalClone);
-				displayImages();
-				startX = e.getX();
-				startY = e.getY();
-				System.out.println("Drag leave Y= " + Y +"   startY = " + startY+"   getY = " + e.getY());
+					System.out.println("Drag got image X = " + e.getX() +"   Y = " + e.getY());
+					originalArea.removeAll();
+					originalArea.add(originalImage);
+					System.out.println("Drag added to panel X = " + e.getX() +"   Y = " + e.getY());
+					RedeyeReduction imgOriginalClone= new RedeyeReduction(imgOriginal,offsetX,offsetY);
+					processedArea.removeAll();
+					processedArea.add(imgOriginalClone);
+					displayImages();
+					startX = e.getX();
+					startY = e.getY();
+					System.out.println("Drag leave Y= " + Y +"   startY = " + startY+"   getY = " + e.getY());
 
-			}
+				}
 			}
 		}
 
