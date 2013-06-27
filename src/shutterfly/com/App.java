@@ -259,8 +259,7 @@ eyeLocList.addListSelectionListener(new ValueReporter());
 				        File file = openFile.getSelectedFile();
 				        String fName = file.toString();
 				        System.out.println(fName);
-				        mouseEvent = new MouseEvent();
-				        mouseMotionEvent = new MouseMotionEvent();
+
 				        pickEyesButton.setEnabled(true);
 				        pickColorButton.setEnabled(true);
 				        clearButton.setEnabled(true);
@@ -270,6 +269,10 @@ eyeLocList.addListSelectionListener(new ValueReporter());
 				        	System.out.println(fName );
 				        	imgOriginal = ImageIO.read(new File(fName));
 				            originalImage = new RedeyeReduction(imgOriginal,offsetX,offsetY,locPicked, eyeLocations);
+					        mouseEvent = new MouseEvent();
+					        mouseMotionEvent = new MouseMotionEvent();
+				            originalImage.addMouseListener(mouseEvent);
+				            originalImage.addMouseMotionListener(mouseMotionEvent);
 				            originalArea.removeAll();
 				            originalArea.add(originalImage);
 				            processedImage= new RedeyeReduction(imgOriginal,offsetX,offsetY,locPicked, eyeLocations);
@@ -290,8 +293,7 @@ eyeLocList.addListSelectionListener(new ValueReporter());
 				    if (pickEye == true) {
 				    	pickEye = false;
 				    	pickEyesButton.setBackground(defaultButtonColor);
-				    	originalImage.removeMouseListener(mouseEvent);
-				    	originalImage.removeMouseMotionListener(mouseMotionEvent);
+
 				    }
 				    else{
 				    	pickEye = true;
@@ -299,10 +301,6 @@ eyeLocList.addListSelectionListener(new ValueReporter());
 				    	moveImage = false;
 				    	originalArea.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				    	moveButton.setBackground(defaultButtonColor);
-				    	originalArea.removeMouseListener(mouseEvent);
-			            originalArea.removeMouseMotionListener(mouseMotionEvent);
-			            originalImage.addMouseListener(mouseEvent);
-			            originalImage.addMouseMotionListener(mouseMotionEvent);
 				    }
 				}
 			});
@@ -313,18 +311,17 @@ eyeLocList.addListSelectionListener(new ValueReporter());
 				    	pickColor = false;
 				    	pickColorButton.setBackground(defaultButtonColor);
 				    	colorLabel.setOpaque(false);
-				    	originalArea.removeMouseListener(mouseEvent);
 				    }
 				    else{
 				    	pickColor = true;
 				    	pickColorButton.setBackground(defaultButtonColor.brighter());
 				    	colorLabel.setOpaque(true);
-				    	if(fromImage.isSelected()){
-				    		originalArea.removeMouseListener(mouseEvent);
-				    		originalImage.addMouseListener(mouseEvent);
-				    	}else{
+				    	if(!fromImage.isSelected()){
 				    		Color bg = JColorChooser.showDialog(colorLabel, "Choose Color", Color.white);
 				    		colorLabel.setBackground(bg);
+				    		pickColor = false;
+					    	pickColorButton.setBackground(defaultButtonColor);
+					    	//colorLabel.setOpaque(false);
 				    	}
 				    }
 
@@ -337,8 +334,6 @@ eyeLocList.addListSelectionListener(new ValueReporter());
 				    	originalArea.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				    	moveImage = false;
 				    	moveButton.setBackground(defaultButtonColor);
-				    	originalArea.removeMouseListener(mouseEvent);
-			            originalArea.removeMouseMotionListener(mouseMotionEvent);
 				    }
 				    else{
 				    	originalArea.getRootPane().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
@@ -346,10 +341,6 @@ eyeLocList.addListSelectionListener(new ValueReporter());
 				    	moveButton.setBackground(defaultButtonColor.brighter());
 				    	pickEye = false;
 				    	pickEyesButton.setBackground(defaultButtonColor);
-				    	originalImage.removeMouseListener(mouseEvent);
-				    	originalImage.removeMouseMotionListener(mouseMotionEvent);
-				    	originalArea.addMouseListener(mouseEvent);
-			            originalArea.addMouseMotionListener(mouseMotionEvent);
 				    }
 				}
 			});
