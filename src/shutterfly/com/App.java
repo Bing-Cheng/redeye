@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,6 +34,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.JColorChooser;
 
 import shutterfly.com.RedeyeReduction;
 
@@ -57,6 +59,7 @@ public class App {
 	 static JScrollPane listPane;
 	 static JPanel listPanel;
 	 static JPanel buttonsPanel;
+	 static JCheckBox fromImage;
 	static	Color defaultButtonColor;
 	static  DefaultListModel model;
 	static MouseEvent mouseEvent;
@@ -131,7 +134,7 @@ public class App {
    	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
 		System.out.println("mouseClicked");
-		if (pickColor == true) {
+		if (pickColor == true && fromImage.isSelected()) {
 			int rgb = imgOriginal.getRGB(e.getX() - offsetX, e.getY() - offsetY);
 			Color bg = new Color(rgb);
 			colorLabel.setBackground(bg);
@@ -196,20 +199,22 @@ public class App {
 	        moveButton = new JButton("Move Image");
 			defaultButtonColor = pickEyesButton.getBackground();
 	        processEyesButton = new JButton("Process Eyes");
+	        fromImage = new JCheckBox("Choose from image");
 	        pickEyesButton.setEnabled(false);
 	        pickColorButton.setEnabled(false);
 	        clearButton.setEnabled(false);
 	        moveButton.setEnabled(false);
 	        processEyesButton.setEnabled(false);
 	        colorLabel = new JLabel();
-	        colorLabel.setPreferredSize(new Dimension(30,30));
+	        colorLabel.setMaximumSize(new Dimension(30,30));
 	        Border border = BorderFactory.createLineBorder(Color.black);
 	        colorLabel.setBorder(border);
 	        colorLabel.setBackground(Color.white);
 
 	        buttonsPanel = new JPanel();
 	        buttonsPanel.setSize(800,100);
-	        GridLayout bLayout = new GridLayout(2,0);
+	        buttonsPanel.setBackground(Color.white);
+	        GridLayout bLayout = new GridLayout(2,4,25,10);
 	        buttonsPanel.setLayout(bLayout);
 	        buttonsPanel.add(openButton);
 	        buttonsPanel.add(pickEyesButton);
@@ -218,6 +223,7 @@ public class App {
 	        buttonsPanel.add(clearButton);
 	        buttonsPanel.add(moveButton);
 	        buttonsPanel.add(processEyesButton);
+	        buttonsPanel.add(fromImage);
 	        originalArea = new JPanel();
 	        originalArea.setPreferredSize(new Dimension(800, 600));
 	        processedArea = new JPanel();
@@ -307,14 +313,21 @@ eyeLocList.addListSelectionListener(new ValueReporter());
 				    	pickColor = false;
 				    	pickColorButton.setBackground(defaultButtonColor);
 				    	colorLabel.setOpaque(false);
+				    	originalArea.removeMouseListener(mouseEvent);
 				    }
 				    else{
 				    	pickColor = true;
 				    	pickColorButton.setBackground(defaultButtonColor.brighter());
 				    	colorLabel.setOpaque(true);
-				    	originalArea.removeMouseListener(mouseEvent);
-			            originalImage.addMouseListener(mouseEvent);
+				    	if(fromImage.isSelected()){
+				    		originalArea.removeMouseListener(mouseEvent);
+				    		originalImage.addMouseListener(mouseEvent);
+				    	}else{
+				    		Color bg = JColorChooser.showDialog(colorLabel, "Choose Color", Color.white);
+				    		colorLabel.setBackground(bg);
+				    	}
 				    }
+
 				}
 			});
 	        
